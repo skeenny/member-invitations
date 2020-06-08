@@ -1,15 +1,16 @@
 <div class="container">
     <p-table #dt [value]="catalog" dataKey="id" styleClass="ui-table-customers" [rowHover]="true" [rows]="10"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        editMode="row" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
         [globalFilterFields]="['id','firstName','lastName']">
         <ng-template pTemplate="caption">
             Catalog of Users
             <div class="ui-table-globalfilter-container">
                 <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                    placeholder="Global Search"/>
+                    placeholder="Global Search" />
             </div>
-            <button pButton type="button" class="ui-button-success" icon="pi pi-user-plus" (click)="openDialog()"></button>
+            <button pButton type="button" class="ui-button-success" icon="pi pi-user-plus"
+                (click)="openDialog()"></button>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
@@ -37,23 +38,50 @@
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-item>
-            <tr class="ui-selectable-row">
-                <td class="ui-column-title">{{item.id}}</td>
-                <td class="ui-column-title">{{item.firstName}}</td>
-                <td class="ui-column-title">{{item.lastName}}</td>
-                <td class="p-grid p-justify-between" style="margin: 0">
-                    <button [disabled]="!!item.status" label="{{!!item.status ? 'In the list' : 'Add to list'}}" pButton (click)="addToList(item)"
-                            type="button" icon="pi pi-plus" iconPos="left" class="ui-button-success"></button>
-                    <button pButton type="button"  label="Delete" icon="pi pi-times" iconPos="left" class="ui-button-danger"
-                            (click)="delete(item)"></button>
+
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr class="ui-selectable-row" [pEditableRow]="rowData">
+                <td>{{rowData.id}}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.firstName" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.firstName}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.lastName" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.lastName}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="p-grid p-justify-around" style="margin: 0">
+                    <button *ngIf="!editing" [disabled]="!!rowData.status"
+                        label="{{!!rowData.status ? 'In the list' : 'Add to list'}}" pButton
+                        (click)="addToList(rowData)" type="button" icon="pi pi-plus" iconPos="left"
+                        class="ui-button-success"></button>
+                    <button *ngIf="!editing" [disabled]="!!rowData.status" pButton type="button" pInitEditableRow icon="pi pi-pencil"
+                        class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                    <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
+                        class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                    <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
+                        class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                    <button *ngIf="!editing" pButton type="button" label="Delete" icon="pi pi-times" iconPos="left"
+                        class="ui-button-danger" (click)="delete(rowData)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div style="text-align: right">
-                <button pButton type="button"  label="Go to members list" icon="pi pi-arrow-right" iconPos="right" class="ui-button-success"
-                    (click)="goToList()"></button>
+                <button pButton type="button" label="Go to members list" icon="pi pi-arrow-right" iconPos="right"
+                    class="ui-button-success" (click)="goToList()"></button>
             </div>
         </ng-template>
     </p-table>

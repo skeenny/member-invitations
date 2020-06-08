@@ -18,6 +18,7 @@ export class CatalogComponent implements OnInit {
         { label: 'Not invited', value: 'not-invited' },
     ];
     public usersList: IUser[];
+    public clonedUsers: { [s: string]: IUser; } = {};
     @ViewChild(CatalogAddComponent, { static: false }) catalogAddComponent: CatalogAddComponent;
     constructor(private catalogService: CatalogService,
                 private localstorageService: LocalStorageService) {
@@ -65,6 +66,22 @@ export class CatalogComponent implements OnInit {
 
     openDialog() {
         this.catalogAddComponent.visible = true;
+    }
+
+    onRowEditInit(user: IUser) {
+        this.clonedUsers[user.id] = { ...user };
+    }
+
+    onRowEditSave(user: IUser) {
+        this.catalogService.updateUser(user).then(() => {
+            this.loadCatalog();
+        });
+        delete this.clonedUsers[user.id];
+    }
+
+    onRowEditCancel(user: IUser, index: number) {
+        this.catalog[index] = this.clonedUsers[user.id];
+        delete this.clonedUsers[user.id];
     }
 
 }
