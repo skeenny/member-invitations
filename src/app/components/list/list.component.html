@@ -1,0 +1,77 @@
+<div class="container">
+    <p-table #dt [value]="membersList" dataKey="id" styleClass="ui-table-customers" [rowHover]="true" [rows]="10"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="['id','firstName','lastName', 'status']">
+        <ng-template pTemplate="caption">
+            List of Members
+            <div class="ui-table-globalfilter-container">
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Global Search" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="firstName">First Name<p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="lastName">Last Name<p-sortIcon field="lastName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'firstName', 'contains')"
+                        placeholder="Search by First Name">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'lastName', 'contains')"
+                        placeholder="Search by Last Name">
+                </th>
+                <th>
+                    <p-dropdown [options]="statuses" (onChange)="dt.filter($event.value, 'status', 'equals')"
+                        styleClass="ui-column-filter" placeholder="Select a Status" [showClear]="true">
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr class="ui-selectable-row" [pEditableRow]="rowData">
+                <td>
+                    {{rowData.firstName}}
+                </td>
+                <td>
+                    {{rowData.lastName}}
+                </td>
+                <td>
+                    <p-dropdown [options]="statuses" (onChange)="changeUserStatus($event.value, rowData)"
+                        placeholder="Select a Status" [(ngModel)]="rowData.status">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span
+                                [class]="'customer-badge status-' + rowData.status">{{getLabel(rowData.status)}}</span>
+                        </ng-template>
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </td>
+                <td>
+                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger"
+                        (click)="delete(rowData)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div style="text-align: right">
+                <button pButton type="button" label="Go to catalog" icon="pi pi-arrow-right" iconPos="right"
+                    class="ui-button-success" (click)="goToCatalog()"></button>
+            </div>
+        </ng-template>
+    </p-table>
+    <app-chart *ngIf="membersList.length > 0" [chartData]="listStats"></app-chart>
+</div>

@@ -12,12 +12,6 @@ import { Router } from '@angular/router';
 })
 export class CatalogComponent implements OnInit {
     public catalog: IUser[];
-    public statuses = [
-        { label: 'Full', value: 'full' },
-        { label: 'Pending', value: 'pending' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Not invited', value: 'not-invited' },
-    ];
     public usersList: IUser[];
     public clonedUsers: { [s: string]: IUser; } = {};
     @ViewChild(CatalogAddComponent, { static: false }) catalogAddComponent: CatalogAddComponent;
@@ -54,7 +48,7 @@ export class CatalogComponent implements OnInit {
     }
 
     addToList(user: IUser) {
-        user.status = 'deactivatedd';
+        user.status = 'deactivated';
         this.localstorageService.addUserToList(user);
         this.formatTableData(this.catalog);
     }

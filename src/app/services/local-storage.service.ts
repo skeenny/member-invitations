@@ -25,6 +25,16 @@ export class LocalStorageService {
         return JSON.parse(localStorage.getItem('list'));
     }
 
+    updateUser(editedUser) {
+        let users = this.getUsers();
+        users.forEach(user => {
+            if (user.id === editedUser.id) {
+                user.status = editedUser.status;
+            }
+        });
+        this.addUsersToList(users);
+    }
+
     deleteUser(id) {
         let users = this.getUsers();
         users = users.filter(user => {

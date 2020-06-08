@@ -13,7 +13,7 @@ export class CatalogAddComponent implements OnInit {
     public userform: FormGroup;
     @Output() loadCatalog: EventEmitter<any> = new EventEmitter();
     constructor(private catalogService: CatalogService,
-                private fb: FormBuilder) {}
+                private fb: FormBuilder) { }
 
     ngOnInit() {
         this.userform = this.fb.group({

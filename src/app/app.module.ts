@@ -17,14 +17,16 @@ import { PanelModule } from 'primeng/panel';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { ChartModule } from 'primeng/chart';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         CatalogComponent,
         ListComponent,
-        CatalogAddComponent
+        CatalogAddComponent,
+        ChartComponent
     ],
     imports: [
         BrowserModule,
@@ -38,7 +40,8 @@ import { DropdownModule } from 'primeng/dropdown';
         PanelModule,
         InputTextModule,
         DialogModule,
-        DropdownModule
+        DropdownModule,
+        ChartModule
     ],
     providers: [
         LocalStorageService,
