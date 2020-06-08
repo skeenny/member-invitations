@@ -62,7 +62,7 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td class="p-grid p-justify-around" style="margin: 0">
+                <td class="p-grid p-justify-end" style="margin: 0">
                     <button *ngIf="!editing" [disabled]="!!rowData.status"
                         label="{{!!rowData.status ? 'In the list' : 'Add to list'}}" pButton
                         (click)="addToList(rowData)" type="button" icon="pi pi-plus" iconPos="left"

@@ -3,6 +3,7 @@ import { CatalogService } from 'src/app/services/catalog.service';
 import { IUser } from 'src/app/models/users.model';
 import { CatalogAddComponent } from '../catalog-add/catalog-add.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-catalog',
@@ -21,7 +22,8 @@ export class CatalogComponent implements OnInit {
     public clonedUsers: { [s: string]: IUser; } = {};
     @ViewChild(CatalogAddComponent, { static: false }) catalogAddComponent: CatalogAddComponent;
     constructor(private catalogService: CatalogService,
-                private localstorageService: LocalStorageService) {
+                private localstorageService: LocalStorageService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -82,6 +84,10 @@ export class CatalogComponent implements OnInit {
     onRowEditCancel(user: IUser, index: number) {
         this.catalog[index] = this.clonedUsers[user.id];
         delete this.clonedUsers[user.id];
+    }
+
+    goToList() {
+        this.router.navigate(['/list']);
     }
 
 }
