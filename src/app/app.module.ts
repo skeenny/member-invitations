@@ -6,14 +6,39 @@ import { AppComponent } from './app.component';
 import { LocalStorageService } from './services/local-storage.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CatalogService } from './services/catalog.service';
+import { TableModule } from 'primeng/table';
+import { CatalogComponent } from './components/catalog/catalog.component';
+import { ListComponent } from './components/list/list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonModule } from 'primeng/button';
+import { CatalogAddComponent } from './components/catalog-add/catalog-add.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PanelModule } from 'primeng/panel';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+
+
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        CatalogComponent,
+        ListComponent,
+        CatalogAddComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        TableModule,
+        BrowserAnimationsModule,
+        ButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PanelModule,
+        InputTextModule,
+        DialogModule,
+        DropdownModule
     ],
     providers: [
         LocalStorageService,

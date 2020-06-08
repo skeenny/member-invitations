@@ -1,0 +1,23 @@
+<p-dialog header="Add User to Catalog" [styleClass]="'custom-dialog'" [(visible)]="visible">
+    <form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+        <div class="ui-fluid">
+            <div class="p-field p-grid">
+                <label for="firstName" class="p-col-12 p-md-2">Firstname: </label>
+                <div class="p-col-12 p-md-10">
+                    <input id="firstName" type="text" pInputText formControlName="firstName" placeholder="Required">
+                </div>
+            </div>
+            <div class="p-field p-grid">
+                <label class="p-col-12 p-md-2" for="lastName">Lastname: </label>
+                <div class="p-col-12 p-md-10">
+                    <input id="lastName" type="text" pInputText formControlName="lastName" placeholder="Required">
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <button type="submit" pButton icon="pi pi-check" [disabled]="!userform.valid" label="Add"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="visible=false" label="Cancel"
+                class="ui-button-secondary"></button>
+        </p-footer>
+    </form>
+</p-dialog>

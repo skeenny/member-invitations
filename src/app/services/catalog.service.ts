@@ -1,27 +1,29 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { IUser } from '../models/users.model';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CatalogService {
-    private JSON_URL = 'asstes/MOCK_CATALOG.json';
+
     constructor(private http: HttpClient) {
     }
 
     getCatalog() {
-       return this.http.get(environment.baseUrl + 'catalog');
+        return this.http.get<IUser[]>(environment.baseUrl + 'catalog');
     }
 
-    updateCatalog(user) {
-        return this.http.post(environment.baseUrl + 'catalog', user).toPromise();
+    addUser(user: IUser) {
+        return this.http.post<IUser>(environment.baseUrl + 'catalog', user).toPromise();
     }
 
     deleteFromCatalog(id: number) {
-        return this.http.delete(environment.baseUrl + 'catalog' + id).toPromise();
+        return this.http.delete(environment.baseUrl + 'catalog/' + id).toPromise();
     }
 
     updateUser(user) {
-        return this.http.put(environment.baseUrl + `catalog/${user.id}`, user).toPromise();
+        return this.http.put<IUser>(environment.baseUrl + `catalog/${user.id}`, user).toPromise();
     }
 }
